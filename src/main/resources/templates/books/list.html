@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <div th:replace="fragments/resources :: headTags"></div>
+	    <title th:text="Books"></title> 
+	</head>
+	<body>
+		<nav th:replace="fragments/navbar :: navbar('books')"></nav>
+		<div th:if="${message != null}">
+			<div th:replace="fragments/components :: alert(${message})"></div>
+		</div> 
+		<div class="container">
+			<h1>Books</h1>
+			<hr/>
+			<div class="mb-3">
+				<a class="btn btn-primary" th:href="@{/books/create}"><i class="fas fa-plus"></i> Add a Book</a>
+			</div>
+			<table class="table" th:if="${list.size() > 0}">
+			  <thead>
+			    <tr>
+			      <th scope="col">ISBN</th>
+			      <th scope="col">Title</th>
+			      <th scope="col">Authors</th>
+			      <th scope="col">Publisher</th>
+			      <th scope="col">Year</th>
+			      <th scope="col">Copies</th>
+			      <th></th>
+			    </tr>
+			  </thead>
+			  <tbody>
+			    <tr th:each="item : ${list}">
+			    	<td th:text="${item.isbn}"></td>
+			    	<td th:text="${item.title}"></td>
+			    	<td th:text="${item.authors}"></td>
+			    	<td th:text="${item.publisher}"></td>
+			    	<td th:text="${item.year}"></td>
+			    	<td th:text="${item.numberOfCopies}"></td>
+			    	<td>
+			    		
+			    			<a class="btn btn-primary" th:href="@{|/books/${item.id}|}"><i class="fas fa-book"></i></a>
+			    			<a class="btn btn-primary" th:href="@{|/books/edit/${item.id}|}"><i class="fas fa-edit"></i></a>
+			    			<a class="btn btn-primary" th:href="@{|/books/delete/${item.id}|}" onclick="return confirm('Are you sure to delete this book?');"><i class="fas fa-trash"></i></a>
+			    		
+			    	</td>
+			    </tr>  
+			  </tbody>
+			</table>
+			<div class="alert alert-primary" role="alert" th:unless="${list.size() > 0}">
+				There are no books in the database
+			</div>
+		</div>
+		<div th:replace="fragments/resources :: scripts"></div>
+	</body>
+</html>

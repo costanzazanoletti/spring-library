@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <div th:replace="fragments/resources :: headTags"></div>
+	    <title th:text="${book.title}"></title> 
+	</head>
+	<body th:object="${book}">
+		<nav th:replace="fragments/navbar :: navbar('books')"></nav>
+		<div class="container">
+			<h1 th:text="*{title}"></h1>
+			<h2 class="text-muted" th:text="|by *{authors}"|></h2>
+			<hr/>
+		
+			<div class="row">
+				<div class="col-8">
+					<dl>
+						<dt>Published by </dt>
+						<dd th:text="*{publisher}"></dd>
+						<dt>Year of publishing </dt>
+						<dd th:text="*{year}"></dd>
+						<dt>ISBN</dt>
+						<dd th:text="*{isbn}"></dd>															
+						<dt>Added to database </dt>
+						<dd th:text="*{createdAt}"></dd>
+						<dt>Number of copies </dt>
+						<dd th:text="*{numberOfCopies}"></dd>
+						<th:block th:unless="${#strings.isEmpty(book.synopsis)}">
+						<dt>Synopsis </dt>
+						<dd th:text="*{synopsis}"></dd>
+						</th:block>	
+					</dl>
+				</div>
+				<div class="col-4">
+					<dt>Categories</dt>
+					<dd>
+						<ul>
+							<li th:each="category : ${book.categories}" th:text="${category.category}">
+						</ul>
+					</dd>
+				</div>
+			</div>
+		</div>
+		<div th:replace="fragments/resources :: scripts"></div>
+	</body>
+</html>

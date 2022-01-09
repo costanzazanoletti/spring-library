@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <div th:replace="fragments/resources :: headTags"></div>
+	    <title th:text="Books"></title> 
+	</head>
+	<body>
+		<nav th:replace="fragments/navbar :: navbar('books')"></nav>
+		<div class="container">
+			<h1>Book</h1>
+			<hr/>
+			
+
+			<form
+			  id="book-form"
+			  th:object="${book}"
+			  th:action="${edit}?@{/books/edit/{id}(id=${book.id})}:@{/books/create}"
+			  method="post"
+			>
+			<!-- lista di tutti gli errori (esempio) -->
+			<div th:if="${#fields.hasAnyErrors()}">
+			    <ul>
+			        <li th:each="err : ${#fields.allErrors()}" th:text="${err}" class="text-error"/>
+			    </ul>
+			</div>
+			<div class="row mb-3">
+				<div class="col-8">
+					<div class="row gy-2">				
+						<div class="col-12">
+						  <label for="title" class="form-label">Title*</label>
+						  <input type="text" class="form-control" id="title" required maxlength="255" th:field="*{title}" th:errorclass="is-invalid">
+						  <div th:if="${#fields.hasErrors('title')}" id="title-feedback" class="invalid-feedback">
+					      	<ul>
+						        <li th:each="err : ${#fields.errors('title')}" th:text="${err}" />
+						    </ul>
+					      </div>						
+					    </div>
+						<div class="col-12">
+						  <label for="authors" class="form-label">Authors*</label>
+						  <input type="text" class="form-control" id="authors" required maxlength="255" th:field="*{authors}" th:errorclass="is-invalid">
+						  <div th:if="${#fields.hasErrors('authors')}" id="title-feedback" class="invalid-feedback">
+					      	<ul>
+						        <li th:each="err : ${#fields.errors('authors')}" th:text="${err}" />
+						    </ul>
+					      </div>
+						</div>
+						<div class="col-12">
+						  <label for="publisher" class="form-label">Publisher*</label>
+						  <input type="text" class="form-control" id="publisher" required maxlength="255" th:field="*{publisher}" th:errorclass="is-invalid">
+						  <div th:if="${#fields.hasErrors('publisher')}" id="title-feedback" class="invalid-feedback">
+					      	<ul>
+						        <li th:each="err : ${#fields.errors('publisher')}" th:text="${err}" />
+						    </ul>
+					      </div>
+						</div>
+						<div class="col-3">
+						  <label for="year" class="form-label">Year*</label>
+						  <input type="number" class="form-control" id="year" required th:field="*{year}" th:errorclass="is-invalid">
+						  <div th:if="${#fields.hasErrors('year')}" id="title-feedback" class="invalid-feedback">
+					      	<ul>
+						        <li th:each="err : ${#fields.errors('year')}" th:text="${err}" />
+						    </ul>
+					      </div>
+						</div>
+						<div class="col-3">
+						  <label for="copies" class="form-label">N. copies*</label>
+						  <input type="number" class="form-control" id="copies" required th:field="*{numberOfCopies}" th:errorclass="is-invalid">
+						  <div th:if="${#fields.hasErrors('numberOfCopies')}" id="title-feedback" class="invalid-feedback">
+					      	<ul>
+						        <li th:each="err : ${#fields.errors('numberOfCopies')}" th:text="${err}" />
+						    </ul>
+					      </div>
+						</div>
+						<div class="col-6">
+						  <label for="isbn" class="form-label">ISBN*</label>
+						  <input type="text" class="form-control" id="isbn" th:field="*{isbn}" th:errorclass="is-invalid">
+						  <div th:if="${#fields.hasErrors('isbn')}" id="title-feedback" class="invalid-feedback">
+					      	<ul>
+						        <li th:each="err : ${#fields.errors('isbn')}" th:text="${err}" />
+						    </ul>
+					      </div>
+						</div>
+						<div class="col-12">
+						  <label for="synopsis" class="form-label">Synopsis</label>
+						  <textarea class="form-control" id="synopsis" rows="5" th:field="*{synopsis}"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="row">
+						<div class="col-12">
+							<div class="h4">Categories</div>
+							<div class="form-check" th:each="category : ${categories}">		
+						  		<input class="form-check-input" type="checkbox" id="categories" th:value="${category.id}" th:field="*{categories}">
+							  	<label class="form-check-label" for="categories" th:text="${category.category}">
+							  	</label>							
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary"><i class="fas fa-check"></i> Save</button>
+			<a th:href="@{/books}" class="btn btn-primary"><i class="fas fa-times"></i> Cancel</a>
+			</form>
+		</div>
+		<div th:replace="fragments/resources :: scripts"></div>
+	</body>
+</html>
