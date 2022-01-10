@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <div th:replace="fragments/resources :: headTags"></div>
+	    <title th:text="Categories"></title> 
+	</head>
+	<body>
+		<nav th:replace="fragments/navbar :: navbar('categories')"></nav>
+		<div th:if="${message != null}">
+			<div th:replace="fragments/components :: alert(${message})"></div>
+		</div> 
+		<div class="container">
+			<h1>Categories</h1>
+			<hr/>
+			<div class="row">
+				<div class="col-4">
+					<form id="category-form" th:object="${categoryObj}"  action="/categories/create" method="post">
+					<div class="input-group mb-3">
+					  <input id="category" th:field="*{category}" type="text" class="form-control">
+					  <button class="btn btn-primary" type="submit">Add</button>
+					</div>
+					</form>
+					<ul class="list-group" th:if="${list.size() > 0}">
+						<li class="list-group-item d-flex justify-content-between" th:each="item : ${list}">
+							<span th:text="${item.category}"></span>
+							<a class="btn btn-primary" th:href="@{|/categories/delete/${item.id}|}"><i class="fas fa-trash"></i></a>
+						</li>
+					</ul>
+					<div class="alert alert-primary" role="alert" th:unless="${list.size() > 0}">
+						There are no categories in the database
+					</div>
+				</div>
+			</div>
+		</div>
+		<div th:replace="fragments/resources :: scripts"></div>
+	</body>
+</html>
