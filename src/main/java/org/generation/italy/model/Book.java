@@ -15,6 +15,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.generation.italy.validation.UniqueISBN;
+
 
 @Entity
 public class Book {
@@ -23,7 +25,10 @@ public class Book {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	// https://stackoverflow.com/questions/62537836/can-spring-boot-be-configured-to-check-unique-constraints-in-my-rest-controller
+	// https://www.baeldung.com/spring-mvc-custom-validator
 	// https://www.baeldung.com/jpa-size-length-column-differences
+	@UniqueISBN
 	@Size(min = 13, max = 13, message = "ISBN must be 13 characters long")
 	@Column(length = 13, unique = true)
 	private String isbn;
